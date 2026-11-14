@@ -1,3 +1,10 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv() # Это загрузит токен из файла .env
+
+# ... дальше твои импорты Flask ...
+
 from flask import Flask, render_template, request, session, redirect, url_for
 import requests
 
@@ -5,7 +12,7 @@ app = Flask(__name__)
 
 app.secret_key = "super_secret_mama_shop_key"
 
-TOKEN = "9029977584:AAGl1HLOVQENnneIzTq8akmZkhcuN1KHjXw"
+TOKEN = os.environ.get("TELEGRAM_TOKEN")
 CHAT_ID = "1605532858"
 
 CAKES = [
