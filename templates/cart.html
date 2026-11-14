@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Корзина — Десерты мечты</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            margin: 0; min-height: 100vh; padding: 24px 16px 60px;
+        }
+        .wrap { max-width: 640px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: #c2185b; margin: 0; font-size: 24px; font-weight: 800; }
+        a.back { color: #c2185b; text-decoration: none; font-weight: 600; font-size: 14px; }
+        .panel { background: #fff; border-radius: 18px; padding: 22px; box-shadow: 0 8px 30px rgba(194, 24, 91, 0.10); margin-bottom: 16px; }
+        .item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
+        .item:last-child { border-bottom: none; }
+        .item .info { flex-grow: 1; }
+        .item .info .name { font-weight: 600; color: #333; }
+        .item .info .sub { font-size: 13px; color: #999; }
+        .qty { display: flex; align-items: center; gap: 8px; }
+        .qty button {
+            width: 30px; height: 30px; border: 1.5px solid #eee; background: #fff;
+            border-radius: 8px; cursor: pointer; font-size: 16px; color: #c2185b; font-weight: 700;
+        }
+        .qty button:hover { background: #fce4ec; border-color: #f48fb1; }
+        .qty span { min-width: 22px; text-align: center; font-weight: 600; }
+        .remove button { background: none; border: none; cursor: pointer; color: #bbb; font-size: 18px; }
+        .remove button:hover { color: #c62828; }
+        .total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; color: #c2185b; margin-top: 8px; }
+        label { display: block; margin: 14px 0 6px; font-weight: 600; color: #444; font-size: 14px; }
+        input[type="text"] { width: 100%; padding: 12px 14px; border: 1.5px solid #eee; border-radius: 10px; font-size: 15px; outline: none; }
+        input[type="text"]:focus { border-color: #c2185b; }
+        button.submit { margin-top: 18px; width: 100%; padding: 14px; background: #c2185b; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        button.submit:hover { background: #a01548; }
+        .msg { padding: 14px; border-radius: 10px; font-size: 14px; text-align: center; margin-bottom: 16px; }
+        .ok { background: #e8f5e9; color: #2e7d32; }
+        .err { background: #ffebee; color: #c62828; }
+        .empty { text-align: center; color: #666; padding: 30px 0; }
+        .btn-goto {
+            display: inline-block; background: #c2185b; color: #fff; padding: 12px 24px;
+            border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px; margin-top: 15px; transition: background 0.2s;
+        }
+        .btn-goto:hover { background: #a01548; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <h1>Корзина</h1>
+            <a href="/" class="back">← В магазин</a>
+        </header>
+
+        {% if success %}
+            <div class="panel"><div class="msg ok">Спасибо! Заказ принят, мы скоро свяжемся.</div></div>
+        {% endif %}
+        {% if error %}
+            <div class="panel"><div class="msg err">{{ error }}</div></div>
+        {% endif %}
+
+        {% if items %}
+        <div class="panel">
+            {% for it in items %}
+            <div class="item">
+                <div class="info">
+                    <div class="name">{{ it.cake.name }}</div>
+                    <div class="sub">{{ it.cake.price }} руб. × {{ it.qty }} = {{ it.subtotal }} руб.</div>
+                </div>
+                <form method="POST" action="/cart/dec/{{ it.cake.id }}" style="display:inline">
+                    <div class="qty"><button type="submit">−</button></div>
+                </form>
+                <span style="min-width:22px;text-align:center;font-weight:600">{{ it.qty }}</span>
+                <form method="POST" action="/cart/inc/{{ it.cake.id }}" style="display:inline">
+                    <div class="qty"><button type="submit">+</button></div>
+                </form>
+                <form method="POST" action="/cart/remove/{{ it.cake.id }}" class="remove">
+                    <button type="submit" title="Удалить">✕</button>
+                </form>
+            </div>
+            {% endfor %}
+            <div class="total"><span>Итого:</span><span>{{ total }} руб.</span></div>
+        </div>
+
+        <div class="panel">
+            <h2 style="margin:0 0 6px;font-size:18px;color:#333">Оформление заказа</h2>
+            <form method="POST" action="/checkout">
+                <label for="name">Ваше имя</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="phone">Телефон</label>
+                <input type="text" id="phone" name="phone" placeholder="+7 900 123-45-67" required>
+
+                <button type="submit" class="submit">Оформить заказ</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="panel">
+            <div class="empty">
+                <p style="margin: 0; font-size: 16px;">В корзине пока ничего нет.</p>
+                <a href="/" class="btn-goto">Перейти к выбору тортов</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
