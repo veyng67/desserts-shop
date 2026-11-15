@@ -3,154 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Десерты мечты</title>
+    <title>Кондитерская Екатерины</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body {
-            font-family: -apple-system, "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
-            margin: 0; min-height: 100vh; padding-bottom: 60px;
-            overflow-x: hidden;
+            font-family: 'Montserrat', -apple-system, sans-serif;
+            background: #fff9f9; margin: 0; min-height: 100vh; color: #4a4a4a;
+            overflow-x: hidden; display: flex; flex-direction: column;
         }
         
-        /* --- ЗАСТАВКА --- */
         #splash {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: #fff9f9; display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
         }
         #splash.hidden { opacity: 0; visibility: hidden; }
         .splash-title {
-            color: #c2185b; font-size: 42px; font-weight: 800; text-align: center;
+            color: #d68a9c; font-size: 42px; font-weight: 700; text-align: center;
             margin: 0; padding: 0 20px; letter-spacing: -0.5px; animation: fadeInDown 1s ease-out;
         }
-        .splash-subtitle {
-            color: #888; font-size: 16px; margin-top: 10px; animation: fadeInUp 1s ease-out;
-        }
+        .splash-subtitle { color: #b59b9b; font-size: 16px; margin-top: 10px; animation: fadeInUp 1s ease-out; }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- ГЛАВНАЯ СТРАНИЦА --- */
+        #banti-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .bantik {
+            position: absolute;
+            opacity: 0.3;
+            animation-name: floatUp;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) translateX(0) rotate(0deg) scale(0.8); }
+            50% { transform: translateY(50vh) translateX(20px) rotate(180deg) scale(1); }
+            100% { transform: translateY(-20vh) translateX(0) rotate(360deg) scale(0.8); }
+        }
+
+        .content-wrap { flex: 1 0 auto; }
         .wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
         
-        /* Шапка сайта */
-        .top-bar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 0; margin-bottom: 20px;
-        }
-        .logo { color: #c2185b; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; margin-bottom: 20px; }
+        .logo { color: #c47488; font-size: 24px; font-weight: 700; text-decoration: none; }
         .cart-link {
-            background: #fff; color: #c2185b; padding: 10px 18px; border-radius: 12px; 
-            text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(194, 24, 91, 0.12); font-size: 14px;
-            display: flex; align-items: center; gap: 8px; transition: background 0.2s;
+            background: #fff; color: #c47488; padding: 10px 20px; border-radius: 20px; 
+            text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(214, 138, 156, 0.15); font-size: 14px;
+            transition: all 0.2s;
         }
-        .cart-link:hover { background: #fce4ec; }
+        .cart-link:hover { box-shadow: 0 6px 20px rgba(214, 138, 156, 0.25); transform: translateY(-1px); }
 
-        /* Приветственный баннер */
-        .hero {
-            background: #fff; border-radius: 24px; padding: 40px 30px; text-align: center;
-            box-shadow: 0 10px 40px rgba(194, 24, 91, 0.08); margin-bottom: 30px;
-        }
-        .hero h1 { color: #333; font-size: 32px; margin: 0 0 12px 0; font-weight: 800; }
-        .hero p { color: #777; font-size: 16px; margin: 0; line-height: 1.5; max-width: 600px; margin: 0 auto; }
+        .hero { background: #fceef1; border-radius: 24px; padding: 50px 30px; text-align: center; margin-bottom: 40px; }
+        .hero h1 { color: #86515d; font-size: 32px; margin: 0 0 16px 0; font-weight: 700; }
+        .hero p { color: #a07e87; font-size: 16px; margin: 0; line-height: 1.6; max-width: 600px; margin: 0 auto; }
 
-        /* Преимущества */
-        .features {
-            display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; flex-wrap: wrap;
-        }
-        .feature { display: flex; align-items: center; gap: 10px; color: #555; font-size: 14px; font-weight: 500; }
-        .feature svg { width: 20px; height: 20px; fill: #c2185b; }
+        .features { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
+        .feature { display: flex; align-items: center; gap: 10px; color: #8c7575; font-size: 14px; font-weight: 500; }
+        .feature svg { width: 20px; height: 20px; fill: #d68a9c; }
 
-        /* Сетка тортов */
-        .section-title { font-size: 22px; font-weight: 800; color: #333; margin-bottom: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .section-title { font-size: 24px; font-weight: 700; color: #4a4a4a; margin-bottom: 24px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; margin-bottom: 60px; }
         .card {
-            background: #fff; border-radius: 18px; padding: 24px;
-            box-shadow: 0 8px 30px rgba(194, 24, 91, 0.08);
+            background: #fff; border-radius: 20px; padding: 24px;
+            box-shadow: 0 8px 30px rgba(214, 138, 156, 0.08);
             display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #fcf0f2;
         }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(194, 24, 91, 0.15); }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(214, 138, 156, 0.15); }
+        
         .badge {
-            width: 50px; height: 50px; border-radius: 14px; background: #fce4ec; color: #c2185b;
-            display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; margin-bottom: 16px;
+            width: 48px; height: 48px; border-radius: 14px; background: #fceef1; color: #c47488;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin-bottom: 16px;
         }
         .name { font-size: 18px; font-weight: 700; color: #333; margin-bottom: 6px; }
-        .desc { font-size: 13.5px; color: #888; margin-bottom: 18px; flex-grow: 1; line-height: 1.5; }
-        .price { font-size: 22px; font-weight: 800; color: #c2185b; margin-bottom: 16px; }
-        .price small { font-size: 14px; color: #aaa; font-weight: 500; }
-        button.add {
-            width: 100%; padding: 12px; background: #c2185b; color: #fff;
-            border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+        .desc { font-size: 13.5px; color: #999; margin-bottom: 18px; flex-grow: 1; line-height: 1.5; }
+        .price { font-size: 20px; font-weight: 700; color: #c47488; margin-bottom: 16px; }
+        .price small { font-size: 13px; color: #bbb; font-weight: 500; }
+        
+        .about-us {
+            background: #fff; border-radius: 24px; padding: 40px; margin-bottom: 60px;
+            border: 1px solid #fcf0f2; box-shadow: 0 8px 30px rgba(214, 138, 156, 0.05);
+            text-align: center;
         }
-        button.add:hover { background: #a01548; }
+        .about-us h2 { color: #86515d; font-size: 28px; margin: 0 0 16px 0; font-weight: 700; }
+        .about-us p { color: #777; font-size: 16px; line-height: 1.8; max-width: 700px; margin: 0 auto; }
+
+        .footer {
+            background: #fff; border-top: 1px solid #fcf0f2; padding: 50px 20px 20px; flex-shrink: 0;
+        }
+        .footer-container {
+            max-width: 1000px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h3 { color: #86515d; font-size: 20px; margin: 0 0 12px 0; font-weight: 700; }
+        .footer-col h4 { color: #4a4a4a; font-size: 16px; margin: 0 0 12px 0; font-weight: 600; }
+        .footer-col p { color: #999; font-size: 14px; line-height: 1.6; margin: 0 0 8px 0; }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col a { color: #d68a9c; text-decoration: none; font-weight: 500; font-size: 14px; transition: color 0.2s; }
+        .footer-col a:hover { color: #c47488; text-decoration: underline; }
+        
+        .footer-bottom {
+            max-width: 1000px; margin: 0 auto; padding-top: 20px;
+            border-top: 1px solid #fcf0f2; text-align: center;
+        }
+        .footer-bottom p { color: #ccc; font-size: 13px; margin: 0; }
+
+        .scroll-top {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: #d68a9c; color: #fff; border-radius: 50%; border: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(214, 138, 156, 0.3);
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000;
+        }
+        .scroll-top.show { opacity: 1; visibility: visible; }
+        .scroll-top:hover { background: #c47488; transform: translateY(-3px); }
+        .scroll-top svg { width: 24px; height: 24px; fill: #fff; }
     </style>
 </head>
 <body>
 
-    <!-- ЗАСТАВКА -->
+    <div id="banti-bg"></div>
+
     <div id="splash">
-        <h1 class="splash-title">Добро пожаловать<br>в Десерты мечты</h1>
+        <h1 class="splash-title">Добро пожаловать<br>в Кондитерскую Екатерины</h1>
         <div class="splash-subtitle">Готовим с любовью...</div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
-    <div class="wrap">
-        <!-- Верхняя панель -->
-        <div class="top-bar">
-            <a href="/" class="logo">Десерты мечты</a>
-            <a href="/cart" class="cart-link">
-                Корзина ({{ cart_count }})
-            </a>
-        </div>
+    <div class="content-wrap">
+        <div class="wrap">
+            <div class="top-bar">
+                <a href="/" class="logo">Кондитерская Екатерины</a>
+                <a href="/cart" class="cart-link">Корзина ({{ cart_count }})</a>
+            </div>
 
-        <!-- Приветственный баннер -->
-        <div class="hero">
-            <h1>Идеальные десерты на заказ</h1>
-            <p>Домашняя выпечка из натуральных ингредиентов. Готовим с душой для ваших праздников, уютных вечеров и просто хорошего настроения.</p>
-        </div>
+            <div class="hero">
+                <h1>Авторские бенто-торты и десерты</h1>
+                <p>Готовим с душой из натуральных ингредиентов. Создадим сладкое настроение для вашего праздника, уютного вечера или просто хорошего дня.</p>
+            </div>
 
-        <!-- Преимущества -->
-        <div class="features">
-            <div class="feature">
-                <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                Натуральные ингредиенты
+            <div class="features">
+                <div class="feature"><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg> Натуральные ингредиенты</div>
+                <div class="feature"><svg viewBox="0 0 24 24"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-9-1a2 2 0 0 1 4 0v1h-4V6zm9 13H5V9h14v10z"/></svg> Индивидуальный подход</div>
+                <div class="feature"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5l1.96 2.5H17z"/></svg> Доставка по городу</div>
             </div>
-            <div class="feature">
-                <svg viewBox="0 0 24 24"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-9-1a2 2 0 0 1 4 0v1h-4V6zm9 13H5V9h14v10z"/></svg>
-                Индивидуальный подход
-            </div>
-            <div class="feature">
-                <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5l1.96 2.5H17z"/></svg>
-                Доставка по городу
-            </div>
-        </div>
 
-        <!-- Ассортимент -->
-        <div class="section-title">Наш ассортимент</div>
-        <div class="grid">
-            {% for cake in cakes %}
-            <div class="card">
-                <div class="badge">{{ cake.name[0] }}</div>
-                <div class="name">{{ cake.name }}</div>
-                <div class="desc">{{ cake.desc }}</div>
-                <div class="price">{{ cake.price }} <small>руб.</small></div>
-                <form method="POST" action="/add/{{ cake.id }}">
-                    <button type="submit" class="add">Добавить в корзину</button>
-                </form>
+            <div class="section-title">Наш ассортимент</div>
+            <div class="grid">
+                {% for cake in cakes %}
+                <a href="/cake/{{ cake.id }}" style="text-decoration: none; display: flex; flex-direction: column;">
+                    <div class="card" style="flex-grow: 1;">
+                        <div class="badge">{{ cake.name[0] }}</div>
+                        <div class="name">{{ cake.name }}</div>
+                        <div class="desc">{{ cake.desc }}</div>
+                        <div class="price">{{ cake.price }} <small>руб.</small></div>
+                    </div>
+                </a>
+                {% endfor %}
             </div>
-            {% endfor %}
+
+            <div class="about-us">
+                <h2>О кондитерской Екатерины</h2>
+                <p>Мы специализируемся на создании мини-тортов (бенто) и изысканных десертов. В нашей работе нет места сомнительным ингредиентам — только свежие сливки, настоящее масло и качественный шоколад. Каждый заказ готовится вручную с вниманием к деталям, чтобы вы и ваши близкие получили настоящее удовольствие.</p>
+            </div>
         </div>
     </div>
 
-    <!-- СКРИПТ ЗАСТАВКИ -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Кондитерская Екатерины</h3>
+                <p>Авторские бенто-торты и десерты ручной работы. Готовим с любовью из фермерских продуктов.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <ul>
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/cart">Корзина</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Связаться с нами</h4>
+                <p>Телефон: <a href="tel:+79000000000">+7 (900) 000-00-00</a></p>
+                <p>Telegram: <a href="https://t.me/desserts_of_my_dream_shop55_bot" target="_blank">@desserts_of_my_dream_shop55_bot</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Кондитерская Екатерины. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <button class="scroll-top" id="scrollTopBtn" title="Наверх">
+        <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+    </button>
+
     <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash');
-                splash.classList.add('hidden');
-            }, 2500); 
+        if (!sessionStorage.getItem('splashShown')) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.getElementById('splash').classList.add('hidden');
+                    sessionStorage.setItem('splashShown', 'true');
+                }, 2500); 
+            });
+        } else {
+            document.getElementById('splash').style.display = 'none';
+        }
+
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) scrollTopBtn.classList.add('show');
+            else scrollTopBtn.classList.remove('show');
         });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        const bantiBg = document.getElementById('banti-bg');
+        
+        const bantiSVG = `
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="bowGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fde4e8"/>
+                    <stop offset="100%" stop-color="#f0b3c0"/>
+                </linearGradient>
+                <linearGradient id="bowGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fde4e8"/>
+                    <stop offset="100%" stop-color="#e8a2b2"/>
+                </linearGradient>
+            </defs>
+            <path d="M60 60 C60 60, 30 20, 10 35 C-5 50, 10 80, 35 80 C60 80, 60 60, 60 60 Z" fill="url(#bowGrad1)" stroke="#e8a2b2" stroke-width="1"/>
+            <path d="M60 60 C60 60, 90 20, 110 35 C125 50, 110 80, 85 80 C60 80, 60 60, 60 60 Z" fill="url(#bowGrad2)" stroke="#e8a2b2" stroke-width="1"/>
+            <path d="M55 60 C55 60, 20 100, 40 115 C60 130, 75 100, 60 70 Z" fill="url(#bowGrad1)" stroke="#e8a2b2" stroke-width="1"/>
+            <path d="M65 60 C65 60, 100 100, 80 115 C60 130, 45 100, 60 70 Z" fill="url(#bowGrad2)" stroke="#e8a2b2" stroke-width="1"/>
+            <ellipse cx="60" cy="60" rx="12" ry="10" fill="#fde4e8" stroke="#e8a2b2" stroke-width="1"/>
+        </svg>`;
+
+        function createBantik() {
+            const bantik = document.createElement('div');
+            bantik.className = 'bantik';
+            bantik.innerHTML = bantiSVG;
+            
+            const size = Math.random() * 35 + 45;
+            bantik.style.width = size + 'px';
+            bantik.style.height = size + 'px';
+            
+            bantik.style.left = (Math.random() * 95) + 'vw';
+            
+            const duration = Math.random() * 20 + 20;
+            bantik.style.animationDuration = duration + 's';
+            
+            bantik.style.animationDelay = Math.random() * 5 + 's';
+            
+            bantik.style.filter = 'drop-shadow(0px 8px 12px rgba(214, 138, 156, 0.15))';
+
+            bantiBg.appendChild(bantik);
+
+            setTimeout(() => {
+                bantik.remove();
+            }, (duration + 10) * 1000);
+        }
+
+        for(let i = 0; i < 15; i++) {
+            createBantik();
+        }
+
+        setInterval(createBantik, 2500);
     </script>
 </body>
 </html>
