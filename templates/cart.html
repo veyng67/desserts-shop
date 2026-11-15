@@ -91,7 +91,10 @@
                 <input type="text" id="name" name="name" required>
 
                 <label for="phone">Телефон</label>
-                <input type="text" id="phone" name="phone" placeholder="+7 900 123-45-67" required>
+                <input type="tel" id="phone" name="phone" placeholder="+7 900 123-45-67" 
+       pattern="[0-9\s\+\-\(\)]{10,20}" 
+       title="Пожалуйста, используйте только цифры, пробелы, скобки, плюс и тире"
+       required>
 
                 <button type="submit" class="submit">Оформить заказ</button>
             </form>
